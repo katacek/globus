@@ -6,6 +6,9 @@ exports.handleStart = async ({ request, $ }) =>
 {
     const requestQueue = await Apify.openRequestQueue();
     const pseudoUrls = [new Apify.PseudoUrl('https://www.iglobus.cz/[.*]')];
+
+    log.info($.html());
+
     Apify.utils.enqueueLinks({
         $: $,
         baseUrl:'https://www.iglobus.cz',
