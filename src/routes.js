@@ -64,7 +64,7 @@ exports.handleDetail = async ({ request, $ }) => {
     }
     const discount = parseInt($('.product-discount strong').eq(0).text().replace("−", ""));
     if (discount) {
-        result.originalPrice =  Math.round(result.currentPrice * 100 / (100-discount)* 100) / 100
+        result.originalPrice =  Math.round(result.currentPrice * 100 / (100-discount)* 10) / 10
     } else
     {
         result.originalPrice = result.currentPrice;
