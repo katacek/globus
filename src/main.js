@@ -3,13 +3,14 @@ const { handleStart, handleList, handleDetail } = require('./routes');
 
 const { utils: { log } } = Apify;
 
-const proxyConfiguration = await Apify.createProxyConfiguration({
-    groups: ['CZECH_LUMINATI'], // List of Apify Proxy groups
-    countryCode: 'CZ',
-    });
-
 Apify.main(async () => {
     const requestQueue = await Apify.openRequestQueue();
+
+    const proxyConfiguration = await Apify.createProxyConfiguration({
+        groups: ['CZECH_LUMINATI'], // List of Apify Proxy groups
+        countryCode: 'CZ',
+        });
+
     requestQueue.addRequest({url: 'https://www.iglobus.cz'});
     const crawler = new Apify.CheerioCrawler({
         requestQueue,
