@@ -11,7 +11,7 @@ Apify.main(async () => {
         countryCode: 'CZ',
         });
 
-    requestQueue.addRequest({url: 'https://www.iglobus.cz'});
+    await requestQueue.addRequest({url: 'https://www.iglobus.cz'});
     const crawler = new Apify.CheerioCrawler({
         requestQueue,
         useApifyProxy: true,
