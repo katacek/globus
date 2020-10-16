@@ -62,8 +62,15 @@ exports.handleDetail = async ({ request, $ }) => {
     } else {
         result.currentPrice = parseFloat(price.replace(',', '.'));
     }
-    result.originalPrice = parseFloat($('.detail-price-before').text().replace(',', '.'));
-    if (!result.originalPrice) result.originalPrice = result.currentPrice;
+    const discount = parseInt($('.product-discount strong').eq(0).text().replace("−", ""));
+    if (discount) {
+        result.originalPrice = result.currentPrice * 100 / (100-discount)
+    } else
+    {
+        result.originalPrice = result.currentPrice;
+    }
+    // result.originalPrice = parseFloat($('.detail-price-before').text().replace(',', '.'));
+    // if (!result.originalPrice) result.originalPrice = result.currentPrice;
     result.discounted = result.currentPrice < result.originalPrice;
     result.currency = "CZK";    
 
