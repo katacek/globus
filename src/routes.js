@@ -7,8 +7,6 @@ exports.handleStart = async ({ request, $ }) =>
     const requestQueue = await Apify.openRequestQueue();
     const pseudoUrls = [new Apify.PseudoUrl('https://www.iglobus.cz/[.*]')];
 
-    log.info($.html());
-
     Apify.utils.enqueueLinks({
         $: $,
         baseUrl:'https://www.iglobus.cz',
@@ -59,6 +57,7 @@ exports.handleDetail = async ({ request, $ }) => {
     result.itemUrl = request.url;
     result.currentPrice = parseFloat($('.detail-price-now').text().replace(',', '.'));
     result.originalPrice = parseFloat($('.detail-price-before').text().replace(',', '.'));
+    if (!result.originalPrice) result.originalPrice = result.currentPrice;
     result.discounted = result.currentPrice < result.originalPrice;
     result.currency = "CZK";    
 
