@@ -1,4 +1,5 @@
 const Apify = require('apify');
+const { contains } = require('cheerio');
 
 const { utils: { log } } = Apify;
 
@@ -55,7 +56,12 @@ exports.handleDetail = async ({ request, $ }) => {
     result.itemImgUrl = $('#detail-container').find('img').attr('src');
     result.itemCategoryPage = $('.breadcrumb li').map(function () { return $(this).text().trim(); }).get().join('=>');
     result.itemUrl = request.url;
-    result.currentPrice = parseFloat($('.detail-price-now').text().replace(',', '.'));
+    const price = $('.detail-price-now').text();
+    if (price.includes('cca')) { 
+        result.currentPrice = parseFloat(price.split('cca')[1].replace(',', '.'));
+    } else {
+        result.currentPrice = parseFloat(price.replace(',', '.'));
+    }
     result.originalPrice = parseFloat($('.detail-price-before').text().replace(',', '.'));
     if (!result.originalPrice) result.originalPrice = result.currentPrice;
     result.discounted = result.currentPrice < result.originalPrice;
